@@ -1,0 +1,37 @@
+import sqlite3
+
+def create_tables():
+    try:
+        # データベースに接続
+        conn = sqlite3.connect('weather.db')
+        cursor = conn.cursor()
+        
+        # エリア情報テーブルの作成
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS area_info (
+                area_code TEXT PRIMARY KEY,
+                area_name TEXT NOT NULL
+            )
+        """)
+
+        # 天気情報テーブルの作成
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS weather_info (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                area_code TEXT,
+                weather TEXT,
+                wind TEXT,
+                wave TEXT,
+                temp_min REAL,
+                temp_max REAL,
+                time TEXT,
+                FOREIGN KEY (area_code) REFERENCES area_info(area_code)
+            )
+        """)
+
+        # コミットしてクローズ
+        conn.commit()
+        conn.close()
+        print("Tables created successfully.")
+    except sqlite3.Error as e:
+        print(f"Error creating tables: {e}")
