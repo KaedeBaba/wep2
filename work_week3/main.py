@@ -5,7 +5,6 @@ import urllib.error
 import sqlite3
 from datetime import datetime
 
-# SQLite DBの設定
 DB_NAME = "weather_data.db"
 
 def initialize_db():
